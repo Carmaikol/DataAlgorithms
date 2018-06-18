@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include "PriorityQueue.h"
+
 
 bool resuelveCaso();
 
@@ -9,21 +9,21 @@ bool resuelveCaso();
 // COMPLEJIDAD
 //O(N) donde N es el numero de libros
 bool resuelveCaso() {
-	int libro,numeroCasos; //N es el numero de personas(vertices), M el numero de pares de amigos(artistas)
+	size_t libro,numeroCasos; //N es el numero de personas(vertices), M el numero de pares de amigos(artistas)
 
 	if(std::cin.fail())return false;
 	std::cin >> numeroCasos;
 	
 	//PriorityQueue<int, std::greater<int>> listaLibros;
-	std::vector<int> listaLibros(numeroCasos, 0);
+	std::vector<size_t> listaLibros(numeroCasos, 0);
 	
 	for(size_t i = 0; i < numeroCasos; i++){
 		std::cin >> libro;
-		listalLibros[i] = libro;
+		listaLibros[i] = libro;
 		}
 		
 	
-	std::sort(listaLibros.begin(), listaLibros.end(), std::greater<int>());
+	std::sort(listaLibros.begin(), listaLibros.end(), std::greater<size_t>());
 	
 	if(numeroCasos>=3){
 	
