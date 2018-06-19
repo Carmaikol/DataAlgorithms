@@ -12,7 +12,6 @@ public:
 					if(!_marked[i]){
 						size_t count = 0;
 						dfs(grafo, i,count);
-					
 						maximo = std::max(count,maximo);
 					}
 				}
@@ -62,12 +61,12 @@ size_t resuelveCaso() {
 
 //O(M)
 Grafo construirGrafo(size_t N, size_t M){
-	Grafo grafo = Grafo(N);
+	Grafo grafo = Grafo(N+1);
 	size_t A, B;
 	
 	for(size_t i = 0; i < M; i++){
 		std::cin >> A >> B;
-		grafo.ponArista(A-1,B-1);
+		grafo.ponArista(A,B);
 		}
 
 	return grafo;
@@ -87,7 +86,7 @@ int main() {
 	std::cin >> numeroCasos;
 	
 	while (numeroCasos > 0) {
-		std::cout << resuelveCaso();
+		std::cout << resuelveCaso() << std::endl;
 		numeroCasos--;
 		}
 
