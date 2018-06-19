@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <fstream>
 #include "Grafo.h"
 
 
@@ -38,6 +37,7 @@ private:
 				}else{
 					if(_colores[w] == _colores[v]){
 						bipartito = false;
+						return;
 						}
 				}
 			}
@@ -58,8 +58,9 @@ Grafo construirGrafo(size_t N, size_t M);
 bool resuelveCaso() {
 	size_t N, M; //N es el numero de personas(vertices), M el numero de pares de amigos(artistas)
 	
-	if (std::cin.fail()) return false;
+	
 	std::cin >> N >> M;
+	if (std::cin.fail()) return false;
 
 	Grafo grafo = construirGrafo(N,M);
 	Solucion solucion = Solucion(grafo);
