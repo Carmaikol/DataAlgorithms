@@ -37,7 +37,6 @@ public:
 					
 				//Recorro los adjuntos
 				for(size_t i = 0; i < grafo.adj(posicion).size();i++){
-					//Compruebo ciclos
 					size_t otro = grafo.adj(posicion)[i].otro(posicion);
 					if(!_marked[otro]){
 						_queue.push(grafo.adj(posicion)[i]);
@@ -82,10 +81,7 @@ public:
 		}
 		
 	
-			
-	
-			
-	
+
 private:
 
 	std::vector<bool> _marked; 									//Marcados
@@ -104,10 +100,9 @@ bool resuelveCaso();
 GrafoValorado<size_t> construirGrafo(size_t N, size_t M);
 
 // COMPLEJIDAD
-//O(N + C) donde N es el numero de vertices y C es el numero de aristas.
+//O(C log N) donde N es el numero de vertices y C es el numero de aristas.
 bool resuelveCaso() {
 	size_t N, C; //N es el numero de intersecciones(vertices), Cel numero calles entre intersecciones(artistas)
-	
 	
 	std::cin >> N >> C;
 	if (std::cin.fail()) return false;
