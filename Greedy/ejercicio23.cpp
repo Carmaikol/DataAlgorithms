@@ -25,7 +25,7 @@ bool resuelveCaso() {
 		
 	
 	for(size_t i = 0; i < numero_ciudades; i++){
-		std::cin >> puntos;
+		std::cin >> tropas;
 		defensores[i] = tropas;
 		}
 		
@@ -40,8 +40,6 @@ bool resuelveCaso() {
 		size_t contador = 0, _i = 0, _j = 0;
 		
 		while(_j < defensores.size() && _i < atacantes.size()){
-			std::cout << "i: " << _i << "   j: " << _j << std::endl;
-			
 			if(defensores[_j] >= atacantes[_i]){
 				++contador;
 				++_j;

@@ -15,6 +15,7 @@ bool resuelveCaso() {
 
 	std::cin >> numero_partidos;
 	if(std::cin.fail())return false;
+	if(numero_partidos == 0 ) return false;
 	
 	std::vector<size_t> contrarios(numero_partidos,0);
 	std::vector<size_t> broncos(numero_partidos,0);
@@ -47,6 +48,7 @@ bool resuelveCaso() {
 		_i++;
 	}
 	
+		
 		
 
 	std::cout << contador << std::endl;
