@@ -19,18 +19,29 @@ void dfs(Grafo grafo, size_t indice, size_t N, size_t M);
 bool resuelveCaso() {
 	size_t N, M, resultado = 0; //N es el numero de columnas, M el numero de filas
 	
+	
+	
+	
 	std::cin >> N >> M;
 	if (std::cin.fail()) return false;
 
-	Grafo grafo(N*M);
+
+	//size_t vertices = (N+1)*(M+1);
+	size_t vertices = (N+1)*(M)  ;
+	Grafo grafo(vertices);
+//	Grafo grafo(N*M +1);
 	
-	_esBlanco = std::vector<bool>(N*M,false);
-	_marked = std::vector<bool>(N*M,false);
+	_blancos = std::stack<size_t>();
+	//_esBlanco = std::vector<bool>(N*M +1,false);
+	_esBlanco = std::vector<bool>(vertices,false);
+	_marked = std::vector<bool>(vertices,false);
+	//_marked = std::vector<bool>(N*M +1,false);
 	
 	std::string linea;
 
-	for(size_t i = 0; i < M; i++){
+	for(size_t i = 0; i < M+1; i++){
 		getline(std::cin, linea);
+		//std::cout << "Linea: " << linea << "  i: " << i << std::endl;
 		for(size_t j = 0; j < N; j++){
 			//Si el elemento es blanco se le anade una arista
 			if(linea[j] == '.'){
@@ -39,7 +50,7 @@ bool resuelveCaso() {
 				_blancos.push(indice);
 				
 				//Elemento superior
-				if(i-1 >= 0){
+				if(i-1 >= 0 ){
 					size_t indice_superior = (i-1) * N + j;
 					if(_esBlanco[indice_superior]){
 						grafo.ponArista(indice,indice_superior);
@@ -57,6 +68,7 @@ bool resuelveCaso() {
 			}
 		}
 	}
+	
 				
 			while(_blancos.size() > 0){
 				size_t indice  = _blancos.top();
@@ -67,8 +79,9 @@ bool resuelveCaso() {
 					}
 				}
 				
-		//Se resta el borde al resultado
-		std::cout << resultado - 1 << std::endl;
+	//Se resta el borde al resultado
+	std::cout << resultado - 1 << std::endl;
+
 
 	return true;
 
@@ -113,7 +126,6 @@ int main() {
 //std::cin.rdbuf(cinbuf);
 //system("PAUSE");
 //#endif
-
 
 	return 0;
 }
