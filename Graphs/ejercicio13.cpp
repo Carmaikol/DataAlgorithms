@@ -67,8 +67,8 @@ bool resuelveCaso() {
 					}
 				}
 				
-		//Se resta el borde al resultado
-		std::cout << resultado - 1 << std::endl;
+	//Se resta el borde al resultado
+	std::cout << resultado - 1 << std::endl;
 
 	return true;
 

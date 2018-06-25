@@ -102,7 +102,7 @@ GrafoValorado<size_t> construirGrafo(size_t N, size_t M);
 // COMPLEJIDAD
 //O(C log N) donde N es el numero de vertices y C es el numero de aristas.
 bool resuelveCaso() {
-	size_t N, C; //N es el numero de intersecciones(vertices), Cel numero calles entre intersecciones(artistas)
+	size_t N, C; //N es el numero de intersecciones(vertices), C el numero calles entre intersecciones(artistas)
 	
 	std::cin >> N >> C;
 	if (std::cin.fail()) return false;

@@ -27,7 +27,7 @@ bool resuelveCaso() {
 		return true;
 	}
 	
-	// if (!esConexo) : O(V)
+	
 	
 	size_t count = 1;
 	size_t arboles = 0;
@@ -47,11 +47,12 @@ bool resuelveCaso() {
 					}
 				
 				}
+		}
 	}
 	
 	
 	if(arboles == 1){
-		std::cout << "SI  " << nodoInicial << std::endl;
+		std::cout << "SI " << nodoInicial << std::endl;
 	}else{
 		std::cout << "NO" << std::endl;
 	}
