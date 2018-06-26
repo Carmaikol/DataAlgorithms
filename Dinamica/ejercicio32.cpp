@@ -47,12 +47,16 @@ bool resuelveCaso() {
 		for(size_t i = 1; i <= amigos.size()-1; ++i){
 			//cazatesoros[i][0] = 1;
 			for(size_t j = 1; j <= T; ++j){
-				if(((amigos[i].amigo2 != amigos[i-1].amigo1) &&  amigos[i].amigo1 == amigos[i-1].amigo2) ||
-				((amigos[i].amigo1 != amigos[i-1].amigo2) &&  amigos[i].amigo2 == amigos[i-1].amigo1)  ){
+				
+				if(((amigos[i].amigo2 != amigos[i-1].amigo1) &&  amigos[i].amigo1 == amigos[i-1].amigo2) 	||
+				((amigos[i].amigo1 != amigos[i-1].amigo2) &&  amigos[i].amigo2 == amigos[i-1].amigo1)  		|| 
+				((amigos[i].amigo1 != amigos[i-1].amigo1) &&  amigos[i].amigo2 == amigos[i-1].amigo2) 		|| 
+				((amigos[i].amigo2 != amigos[i-1].amigo2) &&  amigos[i].amigo1 == amigos[i-1].amigo1)){
 					busca_relaciones[i][j] = busca_relaciones[i-1][j];
 				}else{
 					busca_relaciones[i][j] = std::max(busca_relaciones[i-1][j], busca_relaciones[i-1][j - 1] + 1);
 				}
+				
 			}
 		}
 		
