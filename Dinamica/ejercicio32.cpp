@@ -54,7 +54,7 @@ bool resuelveCaso() {
 				((amigos[i].amigo2 != amigos[i-1].amigo2) &&  amigos[i].amigo1 == amigos[i-1].amigo1)){
 					busca_relaciones[i][j] = busca_relaciones[i-1][j];
 				}else{
-					busca_relaciones[i][j] = std::max(busca_relaciones[i-1][j], busca_relaciones[i-1][j - 1] + 1);
+					busca_relaciones[i][j] = std::min(busca_relaciones[i-1][j], busca_relaciones[i-1][j - 1] + 1);
 				}
 				
 			}

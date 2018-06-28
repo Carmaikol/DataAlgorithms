@@ -29,43 +29,43 @@ bool resuelveCaso() {
 	
 	std::string linea;
 
-	for(size_t i = 0; i < M; i++){
-		getline(std::cin, linea);
-		for(size_t j = 0; j < N; j++){
-			//Si el elemento es blanco se le anade una arista
-			if(linea[j] == '.'){
-				size_t indice = i * N + j;
-				_esBlanco[indice] = true;
-				_blancos.push(indice);
-				
-				//Elemento superior
-				if(i-1 >= 0){
-					size_t indice_superior = (i-1) * N + j;
+
+
+	for(size_t i = 0; i < numVertices; i++){
+		std::cin.get(nodo); if(nodo=='\n') std::cin.get(nodo);
+		
+		if(nodo=='.'){
+			_esBlanco[i] = true;
+			_blancos.push_back(i);
+			
+			//Elemento superior
+				if(i-N >= 0 ){
+					size_t indice_superior =  i - N;
 					if(_esBlanco[indice_superior]){
 						grafo.ponArista(indice,indice_superior);
 					}
 				}
 				
 				//Elemento izquierdo
-				if(j-1 >= 0){
-					size_t indice_izquierdo = i * N + j - 1;
+				if(j-M > 0){
+					size_t indice_izquierdo = i - 1;
 					
 					if(_esBlanco[indice_izquierdo]){
 						grafo.ponArista(indice,indice_izquierdo);
 					}
-				}
+				}	
 			}
 		}
-	}
+
 				
-			while(_blancos.size() > 0){
-				size_t indice  = _blancos.top();
-				_blancos.pop();
-				if(!_marked[indice]) {
-					resultado++;
-					dfs(grafo, indice, N, M);
-					}
-				}
+		while(_blancos.size() > 0){
+			size_t indice  = _blancos.top();
+			_blancos.pop();
+			if(!_marked[indice]) {
+				resultado++;
+				dfs(grafo, indice, N, M);
+			}
+		}
 				
 	//Se resta el borde al resultado
 	std::cout << resultado - 1 << std::endl;

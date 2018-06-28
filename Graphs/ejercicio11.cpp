@@ -33,7 +33,7 @@ bool resuelveCaso() {
 	size_t arboles = 0;
 	size_t nodoInicial = -1;
 	
-	for (size_t i = 0; i < V; i++){
+	for (size_t i = 0; i < V && arboles<2; i++){
 		DepthFirstDirectedPaths dfp = DepthFirstDirectedPaths(grafo, i);
 		size_t j=1;
 		count = 1;

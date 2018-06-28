@@ -9,10 +9,12 @@
 std::vector<size_t> _negros;
 std::vector<bool> _marked;
 std::vector<bool> _esMancha;
-std::vector<bool> _esManchaAux;
+//std::vector<bool> _esManchaAux;
 
+
+void reiniciar(std::vector<bool>& _esMancha, std::vector<size_t> _negros);
 bool resuelveCaso();
-void calcularTamano(Grafo& grafo, std::vector<bool>& _esMancha, std::vector<bool>& _esManchaAux, size_t indice, size_t& acumulador, std::vector<size_t>& _resultados);
+void calcularTamano(Grafo& grafo, std::vector<bool>& _esMancha, size_t indice, size_t& acumulador, std::vector<size_t>& _resultados);
 
 
 // COMPLEJIDAD
@@ -20,56 +22,61 @@ void calcularTamano(Grafo& grafo, std::vector<bool>& _esMancha, std::vector<bool
 bool resuelveCaso() {
 	size_t N, M, resultado = 0; //N es el numero de columnas, M el numero de filas
 	
-	
 	std::cin >> N >> M;
 	if (std::cin.fail()) return false;
 	
 	
 	//size_t vertices = (N+1)*(M+1);
-	size_t vertices = (N+1)*(M)  ;
-	Grafo grafo(vertices);
+	size_t vertices = (N)*(M)  ;
+	Grafo grafo(vertices+1);
 //	Grafo grafo(N*M +1);
 	
 	_negros = std::vector<size_t>();
 	//_esMancha = std::vector<bool>(N*M +1,false);
-	_esMancha = std::vector<bool>(vertices,false);
-	_esManchaAux = std::vector<bool>(vertices,false);
+	_esMancha = std::vector<bool>(vertices+1,false);
+	//_esManchaAux = std::vector<bool>(vertices,false);
 	_marked = std::vector<bool>(vertices,false);
 	//_marked = std::vector<bool>(N*M +1,false);
 	
-	std::string linea;
-
-	for(size_t i = 0; i < M+1; i++){
-		getline(std::cin, linea);
+	char nodo;
+	
+	for(size_t i = 0; i < vertices; i++){
+		std::cin.get(nodo); if(nodo=='\n') std::cin.get(nodo);
 		
-		std::cout << "Linea: " << linea << "  i: " << i << std::endl;
-		for(size_t j = 0; j < N; j++){
-			//Si el elemento es blanco se le anade una arista
-			if(linea[j] == '#'){
-				size_t indice = i * N + j;
-				_esMancha[indice] = true;
-			//	_esManchaAux[indice] = true;
-				_negros.push_back(indice);
-				
-				//Elemento superior
-				if(i-1 >= 0 ){
-					size_t indice_superior = (i-1) * N + j;
+		if(nodo=='#'){
+			_esMancha[i] = true;
+			_negros.push_back(i);
+			
+			//Elemento superior
+				if(i-N >= 0 ){
+					size_t indice_superior =  i - N;
 					if(_esMancha[indice_superior]){
-						grafo.ponArista(indice,indice_superior);
+						grafo.ponArista(i,indice_superior);
 					}
 				}
 				
 				//Elemento izquierdo
-				if(j-1 >= 0){
-					size_t indice_izquierdo = i * N + j - 1;
+				if(i%M > 0){
+					size_t indice_izquierdo = i - 1;
 					
 					if(_esMancha[indice_izquierdo]){
-						grafo.ponArista(indice,indice_izquierdo);
+						grafo.ponArista(i,indice_izquierdo);
 					}
 				}
+				
+				//Diagonal superior izquierda
+				if(i%M > 0 && i-N >= 0){
+					size_t indice_superior_izquierdo = i - N -  1;
+					
+					if(_esMancha[indice_superior_izquierdo]){
+						grafo.ponArista(i,indice_superior_izquierdo);
+					}
+				}
+			
+			
 			}
 		}
-	}
+
 	
 		
 	
@@ -80,7 +87,7 @@ bool resuelveCaso() {
 	for(size_t i = 0; i < _negros.size(); i++){
 		size_t local_result = 0;	
 		std::vector<size_t> _resultados;
-		calcularTamano(grafo,_esMancha, _esManchaAux, _negros[i],local_result, _resultados);
+		calcularTamano(grafo,_esMancha, _negros[i],local_result, _resultados);
 		resultado = std::max(local_result,resultado);
 	}
 		
@@ -202,14 +209,15 @@ bool resuelveCaso() {
 		
 		for(size_t i = 0; i < _negros.size(); i++){
 			size_t local_result = 0;	
-			_esManchaAux = std::vector<bool>(vertices,false);
+
 			std::vector<size_t> _resultados;
-			calcularTamano(grafo, _esMancha, _esManchaAux, _negros[i],local_result, _resultados);
+			calcularTamano(grafo, _esMancha, _negros[i],local_result, _resultados);
 			std::cout << "resultado: " << local_result<< std::endl;
 			resultado = std::max(local_result,resultado);
 		}
 		
 		std::cout << resultado << std::endl;
+		reiniciar(_esMancha, _negros);
 			
 		
 	}
@@ -220,8 +228,8 @@ bool resuelveCaso() {
 }
 
 
-void calcularTamano(Grafo& grafo, std::vector<bool>& _esMancha, std::vector<bool>& _esManchaAux, size_t indice, size_t& acumulador, std::vector<size_t>& _resultados){
-		_esManchaAux[indice] = true;
+void calcularTamano(Grafo& grafo, std::vector<bool>& _esMancha, size_t indice, size_t& acumulador, std::vector<size_t>& _resultados){
+		_esMancha[indice] = true;
 		acumulador++;
 		_resultados.push_back(indice);
 		
@@ -229,13 +237,22 @@ void calcularTamano(Grafo& grafo, std::vector<bool>& _esMancha, std::vector<bool
 			indice = _resultados.back();
 			_resultados.pop_back();
 			for(size_t i = 0; i < grafo.adj(indice).size(); i++){
-				if(_esMancha[grafo.adj(indice)[i]] && !_esManchaAux[grafo.adj(indice)[i]]){
-						calcularTamano(grafo, _esMancha, _esManchaAux, grafo.adj(indice)[i], acumulador, _resultados);
+				if(_esMancha[grafo.adj(indice)[i]] && !_esMancha[grafo.adj(indice)[i]]){
+						calcularTamano(grafo, _esMancha, grafo.adj(indice)[i], acumulador, _resultados);
 				}
 			}
 			}
 }
 
+
+void reiniciar(std::vector<bool>& _esMancha, std::vector<size_t> _negros){
+for(size_t i = 0; i < _negros.size(); i++){
+	_esMancha[_negros[i]] = true;
+		
+}
+	
+	
+}
 
 
 int main() {
