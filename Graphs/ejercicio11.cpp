@@ -19,7 +19,7 @@ bool resuelveCaso() {
 	if (std::cin.fail()) return false;
 
 	GrafoDirigido grafo = construirGrafo(V,A);
-	
+	//std::vector<bool> _marked(grafo.V(),false);
 	
 	// if (!esAciclico) : O(1)
 	if (A != V - 1){ //Comprueba que el grafo es aciclico sin pasar por el
@@ -28,26 +28,38 @@ bool resuelveCaso() {
 	}
 	
 	
-	
+	bool raiz = false;
+	bool continuar = true;
 	size_t count = 1;
 	size_t arboles = 0;
 	size_t nodoInicial = -1;
 	
-	for (size_t i = 0; i < V && arboles<2; i++){
+	
+	GrafoDirigido inverso = grafo.reverse();
+	
+	for (size_t i = 0; i < V && !raiz; i++){
+		if(inverso.adj(i).size() == 0){
+			nodoInicial = i;
+			raiz = true;
+			
+			}
+		
+		
 		DepthFirstDirectedPaths dfp = DepthFirstDirectedPaths(grafo, i);
 		size_t j=1;
 		count = 1;
-			for(j = 1; j < V; j++){
+			for(j = 1; j < V && continuar ; j++){
 				if (dfp.hasPathTo(j)){
 					count++;
-				
-				if(count==V){
-					nodoInicial = i;
-					arboles++;
+				}else{
+					continuar = false;
 					}
-				
-				}
 		}
+	}
+	
+	
+	if(count==V){
+			arboles++;
 	}
 	
 	
