@@ -38,6 +38,7 @@ public:
 				//Recorro los adjuntos
 				for(size_t i = 0; i < grafo.adj(posicion).size();i++){
 					size_t otro = grafo.adj(posicion)[i].otro(posicion);
+					//Si no esta marcado lo anado
 					if(!_marked[otro]){
 						_queue.push(grafo.adj(posicion)[i]);
 						}

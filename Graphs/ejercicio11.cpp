@@ -5,21 +5,41 @@
 
 
 
-				
+void dfs(GrafoDirigido const& grafo, size_t v,size_t & _count, std::vector<bool> & _marked, bool & arbol);
 bool resuelveCaso();
 GrafoDirigido construirGrafo(size_t N, size_t M);
+
+
+	//Complejidad O(V)
+void dfs(GrafoDirigido const& grafo, size_t v,size_t& _count, std::vector<bool> & _marked, bool & arbol){
+			++_count;
+			_marked[v] = true; // para no repetir vértices
+			for (auto w : grafo.adj(v)) { // recorremos todos los adyacentes a v
+				if (!_marked[w]) {
+					dfs(grafo, w, _count, _marked, arbol);
+				}else{
+						arbol = false;
+						return;
+						
+				}
+			}
+	}
+
 
 // COMPLEJIDAD
 //O(N + M) donde N es el numero de vertices y M es el numero de aristas.
 bool resuelveCaso() {
 	size_t V, A; //V(vertices), A(artistas)
+	size_t _count = 0;
+	int nodoInicial = -1;
+	bool arbol = true;
 	
-	
-	std::cin >> V >> A;
+	std::cin >> V ;
 	if (std::cin.fail()) return false;
+	std::cin >> A;
 
 	GrafoDirigido grafo = construirGrafo(V,A);
-	//std::vector<bool> _marked(grafo.V(),false);
+	
 	
 	// if (!esAciclico) : O(1)
 	if (A != V - 1){ //Comprueba que el grafo es aciclico sin pasar por el
@@ -29,41 +49,29 @@ bool resuelveCaso() {
 	
 	
 	bool raiz = false;
-	bool continuar = true;
-	size_t count = 1;
-	size_t arboles = 0;
-	size_t nodoInicial = -1;
 	
-	
+
 	GrafoDirigido inverso = grafo.reverse();
 	
 	for (size_t i = 0; i < V && !raiz; i++){
 		if(inverso.adj(i).size() == 0){
 			nodoInicial = i;
 			raiz = true;
-			
 			}
+	}	
+	
+	std::vector<bool> _marked(V, false);
+	
+	if(nodoInicial != -1)
+	dfs(grafo, nodoInicial,_count, _marked, arbol);
 		
 		
-		DepthFirstDirectedPaths dfp = DepthFirstDirectedPaths(grafo, i);
-		size_t j=1;
-		count = 1;
-			for(j = 1; j < V && continuar ; j++){
-				if (dfp.hasPathTo(j)){
-					count++;
-				}else{
-					continuar = false;
-					}
-		}
+	if(!raiz || _count != V) {
+		arbol = false;
 	}
-	
-	
-	if(count==V){
-			arboles++;
-	}
-	
-	
-	if(arboles == 1){
+		
+
+	if(arbol){
 		std::cout << "SI " << nodoInicial << std::endl;
 	}else{
 		std::cout << "NO" << std::endl;
