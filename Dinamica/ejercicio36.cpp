@@ -18,15 +18,15 @@ bool resolver(int N,std::vector<int> valores_monedas,std::vector<int> cantidad_m
 	
 	for(int i=0; i < N + 1; i++){                         												// i representa el tipo de moneda																		
 		for(int j=0; j < precio + 1; j++){																// j  representa el precio del coche
-			
-			
 			if(j==0)					matriz_cantidades[i][j] = 0;                                    // Cero dinero, cero monedas
-			else if(i != 0){
-				for(int k = 0; k <= cantidad_monedas[i] && (j - k * valores_monedas[i] >= 0); k++){		// FLOYD. Cuantas monedas caben en cada caso.
-						iteracion_actual = matriz_cantidades[i - 1][j - (k*valores_monedas[i])] + k;	// Caso recursivo. 
+			else if(i > 0){
+				for(int k = 0; k <= cantidad_monedas[i-1] && (j - k * valores_monedas[i-1] >= 0); k++){	// FLOYD. Cuantas monedas caben en cada caso.
+						iteracion_actual = 
+						std::min(matriz_cantidades[i - 1][j - (k*valores_monedas[i-1])] + k,			// Escoger el minimo entre coger la moneda o no
+						matriz_cantidades[i - 1][j] );													// Caso recursivo. 
 						if(matriz_cantidades[i][j] > iteracion_actual){									// Se busca el minimo
 								matriz_cantidades[i][j] = iteracion_actual;								// Se actualiza el resultado
-								matriz_tipos[i][j] = k;
+								matriz_tipos[i][j] = k;			
 						}
 				}
 					
@@ -35,13 +35,13 @@ bool resolver(int N,std::vector<int> valores_monedas,std::vector<int> cantidad_m
 	}
 	
 	
-	resultado = matriz_cantidades[N][precio];															//Minimo numero de monedas
+	resultado = matriz_cantidades[N][precio];															// Minimo numero de monedas
 	
 	if(resultado != 1e9){																				// Si existe resultado
 		while(precio > 0){																				// Iteramos por el precio, restandole el valor de las monedas guardadas en la solucion.
 				solucion[N-1] = matriz_tipos[N][precio];												// Cogemos solucion guardada
 				if(matriz_tipos[N][precio] != 0){														// Si el numero de monedas del tipo es mayor a 0
-					precio -= solucion[N-1] * valores_monedas[N];										// Restamos el valor de esas monedas al precio.
+					precio -= solucion[N-1] * valores_monedas[N-1];										// Restamos el valor de esas monedas al precio.
 				}
 				N--;
 		}

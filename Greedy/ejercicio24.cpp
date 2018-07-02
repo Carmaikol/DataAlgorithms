@@ -78,18 +78,18 @@ bool resuelveCaso() {
 					//Puedo ver la pelicula
 					fin_anterior = queue.top().fin;
 					numPeliculas++;
-			}else{
-					//No puedo ver la pelicula
-					queue.pop();
+					
 			}
+			//Quitamos el elemento de la cola
+			queue.pop();
+			
 			
 			 	
-		}else{
+			}else{
 			//Comprobamos si podemos anadir el ultimo elemento
 			if(pelicula_comienzo >= fin_anterior &&  pelicula_fin <= HORA_MAXIMA){
 					numPeliculas++;
-			}
-			
+			}	
 		}
 		
 	}
