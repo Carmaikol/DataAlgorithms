@@ -6,8 +6,8 @@
 
 
 struct Pelicula{
-	size_t comienzo;
-	size_t fin;
+	int comienzo;
+	int fin;
 	};	
 	
 class ComparadorPeliculas{
@@ -44,9 +44,9 @@ Pelicula leerPelicula(){
 //O(N log N) donde N es el numero de peliculas
 bool resuelveCaso() {
 	
-	size_t HORA_MAXIMA = 23 * 60 + 59;
+//	size_t HORA_MAXIMA = 23 * 60 + 59;
 	
-	size_t numero_peliculas;
+	int numero_peliculas;
 	
 	std::cin >> numero_peliculas;
 	if(std::cin.fail())return false;
@@ -54,40 +54,36 @@ bool resuelveCaso() {
 	
 	PriorityQueue<Pelicula, ComparadorPeliculas> queue;
 	
-	for(size_t i = 0; i < numero_peliculas; i++){
+	for(int i = 0; i < numero_peliculas; i++){
 		Pelicula pelicula = leerPelicula();
 		queue.push(pelicula);
 		}
 		
 	int numPeliculas = 1;			//Contamos que siempre vemos la primera
 		
-	size_t fin_anterior = -1 ;   	//Flag que controla el fin de la ultima pelicula que hemos visto
+	int fin_anterior = -1 ;   	//Flag que controla el fin de la ultima pelicula que hemos visto
+	
+	
+	Pelicula pelicula = queue.top();
+	queue.pop();
 	
 	while(!queue.empty()){
 		Pelicula pelicula_actual = queue.top();
 		queue.pop();
 		
-		size_t pelicula_comienzo = pelicula_actual.comienzo;
-		size_t pelicula_fin = pelicula_actual.fin;
-		
-		if(fin_anterior == -1) fin_anterior = pelicula_fin;	
+		int pelicula_comienzo = pelicula_actual.comienzo;
+		if(fin_anterior == -1) fin_anterior = pelicula.fin;	
 			
 		//Recorremos la cola
 		if(!queue.empty()) {
-			if(queue.top().comienzo >= fin_anterior &&  queue.top().fin <= HORA_MAXIMA){
+			if(pelicula_actual.comienzo >= fin_anterior){
 					//Puedo ver la pelicula
-					fin_anterior = queue.top().fin;
+					fin_anterior = pelicula_actual.fin;
 					numPeliculas++;
-					
-			}
-			//Quitamos el elemento de la cola
-			queue.pop();
-			
-			
-			 	
-			}else{
+			}	 	
+		}else{
 			//Comprobamos si podemos anadir el ultimo elemento
-			if(pelicula_comienzo >= fin_anterior &&  pelicula_fin <= HORA_MAXIMA){
+			if(pelicula_comienzo >= fin_anterior){
 					numPeliculas++;
 			}	
 		}
@@ -105,10 +101,10 @@ bool resuelveCaso() {
 
 int main() {
 //   ajustes  para   que cin  extraiga   directamente de un  fichero
-//#ifndef DOMJUDGE
-//std::ifstream in("casos.txt");
-//auto cinbuf = std::cin.rdbuf(in.rdbuf());
-//#endif
+#ifndef DOMJUDGE
+std::ifstream in("casos.txt");
+auto cinbuf = std::cin.rdbuf(in.rdbuf());
+#endif
 
 
 while(resuelveCaso()){
@@ -116,10 +112,10 @@ while(resuelveCaso()){
 
 
 //para dejar  todo  como  estaba  al  principio
-//#ifndef  DOMJUDGE
-//std::cin.rdbuf(cinbuf);
-//system("PAUSE");
-//#endif
+#ifndef  DOMJUDGE
+std::cin.rdbuf(cinbuf);
+system("PAUSE");
+#endif
 
 
 	return 0;
