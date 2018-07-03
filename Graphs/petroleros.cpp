@@ -19,11 +19,11 @@ bool resuelveCaso() {
 	std::vector<bool> _marked;
 	std::vector<int> _negros;
 	
-	std::cin >> N >> M;
+	std::cin >> N;
 	if (std::cin.fail()) return false;
-	
+	std::cin >> M;
 
-	int vertices = (N+1)*(M+1)  ;
+	int vertices = (N+1)*(M)  ;
 
 	_negros = std::vector<int>();
 	_esPetroleo = std::vector<bool>(vertices,false);
@@ -35,37 +35,23 @@ bool resuelveCaso() {
 	int i,j;
 	char nodo;
 	std::string linea;
-	getline(std::cin,linea);
-//	std::cout << "Linea1: " << linea << std::endl;
-	for(int _i = 1; _i <= N; _i++){
+	for(int _i = 0; _i < N+1; _i++){
 		getline(std::cin,linea);
-	//	std::cout << "_i: " << _i<< std::endl;
-	//	std::cout << "Linea: " << linea << std::endl;
-		for(int _j = 1; _j <= M; _j++){
+		for(int _j = 0; _j <  M; _j++){
 			
-			i = _i - 1;  //filas
-			j = _j - 1;  //columnas
+			i = _i ;  //filas
+			j = _j ;  //columnas
 			
-	//		std::cout << "i: " << i<< std::endl;
-	//		std::cout << "j: " << j<< std::endl;
 			nodo = linea[j];
-	//		std::cout << "nodo: " << nodo << std::endl;
 			int indice = i * M + j;	
-	//		std::cout << "indice: " << indice << std::endl;
 			int indice_superior =  (i - 1) * M + j;
-	//		std::cout << "indice superior: " << indice_superior << std::endl;
 			int indice_izquierdo = i * M + j - 1 ;
-	//		std::cout << "indice izquierdo: " << indice_izquierdo << std::endl;
 			int indice_superior_izquierdo = (i-1) * M + j - 1 ;
-		//	std::cout << "indice superior izquierdo: " << indice_superior_izquierdo << std::endl;
 			
 		if(nodo=='#'){
 			
 			_esPetroleo[indice] = true;
 			_negros.push_back(indice);
-		//	std::cout << "pusheo a negros: " << indice << std::endl;
-		//	std::cout << "i: " << i<< std::endl;
-		//	std::cout << "j: " << j<< std::endl;
 			//Elemento superior
 				if(i  > 0 ){
 					if(_esPetroleo[indice_superior]){
@@ -95,10 +81,8 @@ bool resuelveCaso() {
 	
 	
 	for(size_t i = 0; i < _negros.size(); i++ ){
-	//	std::cout << "buscar: "  << conjunto.buscar(_negros[i]) << std::endl;
 		if(!_marked[conjunto.buscar(_negros[i])]){
 			size_t max_local = conjunto.size(_negros[i]);
-	//		std::cout << "MAX: "  << max_local << std::endl;
 			_marked[conjunto.buscar(_negros[i])] = true;
 			resultado = std::max(resultado, max_local );
 		}
@@ -117,12 +101,11 @@ bool resuelveCaso() {
 	
 	
 	std::cin >> numero_casos_nuevos;
-	//std::cout << "Casos nuevos: " << numero_casos_nuevos<< std::endl;
 	
 	for(int z = 0; z < numero_casos_nuevos; z++){
 		std::cin >> _i >> _j;
 		
-		i = _i - 1;  //filas
+		i = _i;  //filas
 		j = _j - 1;  //columnas
 
 		int indice = i * M + j;
@@ -142,7 +125,6 @@ bool resuelveCaso() {
 		//Elemento superior
 		if(i > 0 ){
 			if(_esPetroleo[indice_superior]){
-		//		std::cout << "Superior" << std::endl;
 				conjunto.unir(indice,indice_superior);
 			}
 		}
@@ -150,17 +132,14 @@ bool resuelveCaso() {
 		//Elemento izquierdo
 		if(j > 0){
 			if(_esPetroleo[indice_izquierdo]){
-				//std::cout << "Izquierdo" << std::endl;
 				conjunto.unir(indice,indice_izquierdo);
 			}
 		}
 				
 		
 		//Elemento derecho
-		if(j < M){
+		if(j < M-1){
 			if(_esPetroleo[indice_derecho]){
-				
-				//std::cout << "Derecho" << std::endl;
 				conjunto.unir(indice,indice_derecho);
 			}
 		}
@@ -169,16 +148,14 @@ bool resuelveCaso() {
 		//Elemento inferior
 		if(i < N){
 			if(_esPetroleo[indice_inferior]){
-			//	std::cout << "Inferior" << std::endl;
 				conjunto.unir(indice,indice_inferior);
 			}
 		}
 		
 		
 			//Diagonal superior derecha 
-		if(i > 0 && j < M){
+		if(i > 0 && j < M-1){
 			if(_esPetroleo[indice_ds_der]){
-			//	std::cout << "Superior derecho" << std::endl;
 				conjunto.unir(indice,indice_ds_der);
 			}
 		}
@@ -186,7 +163,6 @@ bool resuelveCaso() {
 		//Diagonal superior izquierda
 		if(i > 0  && j > 0){
 				if(_esPetroleo[indice_ds_izq]){
-			//		std::cout << "Superior izq" << std::endl;
 					conjunto.unir(indice,indice_ds_izq);
 				}
 		}
@@ -194,30 +170,24 @@ bool resuelveCaso() {
 			//Diagonal inferior izquierda 
 		if(i < N   && j > 0){
 			if(_esPetroleo[indice_di_izq]){
-		//				std::cout << "Inferior izq" << std::endl;
 				conjunto.unir(indice,indice_di_izq);
 			}
 		}
 		
 			//Diagonal inferior derecha 
-		if(i < N  && j < M){
+		if(i < N  && j < M-1){
 			if(_esPetroleo[indice_di_der]){
-		//				std::cout << "Inferior" << std::endl;
 				conjunto.unir(indice,indice_di_der);
 			}
 		}
 		
 		
-		for(size_t i = 0; i < _negros.size(); i++ ){
-			if(!_marked[conjunto.buscar(_negros[i])]){
-				size_t max_local = conjunto.size(_negros[i]);
-				_marked[conjunto.buscar(_negros[i])] = true;
-				resultado = std::max(resultado, max_local);
-			}
-		}
+		
+		size_t max_local = conjunto.size(indice);
+		resultado = std::max(resultado, max_local);
+		
 		
 		std::cout << resultado << std::endl;
-		_marked = std::vector<bool>(vertices,false);
 		
 	}
 
@@ -231,7 +201,7 @@ bool resuelveCaso() {
 int main() {
 //   ajustes  para   que cin  extraiga   directamente de un  fichero
 #ifndef DOMJUDGE
-std::ifstream in("casos.txt");
+std::ifstream in("casos_petrolero.txt");
 auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif
 

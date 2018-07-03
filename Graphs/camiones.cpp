@@ -45,15 +45,15 @@ public:
 			}
 			
 			
-	void prim(GrafoValorado<size_t> const& grafo, size_t posicion,size_t destino, size_t anchura_minima , std::vector<bool> rechazadas){
+	void prim(GrafoValorado<size_t> const& grafo, size_t posicion,size_t destino, size_t anchura_minima , std::vector<std::vector<bool>> rechazadas){
 			Arista<size_t> arista(0,0,99999999999);
 				
-				//Comrpuebo si esta marcada
+				//Compruebo si esta marcada
 				if(!_marked[posicion]){
 					count++;
 					_marked[posicion] = true;
 				}
-					
+	
 				//Recorro los adjuntos
 				for(size_t i = 0; i < grafo.adj(posicion).size();i++){
 					size_t otro = grafo.adj(posicion)[i].otro(posicion);
@@ -62,37 +62,36 @@ public:
 						}
 					}
 					
-				//Coger la menor arista no marcada
-				//while((_queue.size() > 0 && _marked[arista.uno()] && _marked[arista.otro(arista.uno())] ) &&  rechazadas[arista.uno()] && rechazadas[arista.otro(arista.uno())] ){
-				while((_queue.size() > 0 && _marked[arista.uno()] && _marked[arista.otro(arista.uno())] ) &&  rechazadas[arista.uno()] && rechazadas[arista.otro(arista.uno())] ){
+				//Coger la menor arista no marcada y no rechazada
+				while((_queue.size() > 0 && _marked[arista.uno()] && _marked[arista.otro(arista.uno())] ) ||  ((rechazadas[arista.uno()][arista.otro(arista.uno())]) && count < grafo.V()-1)){
 					//Si se encuentra, quitarla de la cola y utilizarla
-					arista = _queue.top();
-					_queue.pop();
-				
+					if(!_queue.empty()){
+						arista = _queue.top();
+						_queue.pop();
 					
-				if(arista.valor() > anchura_minima){
-					rechazadas[arista.uno()] = true;
-					rechazadas[arista.otro(arista.uno())] = true;
+						//Si la anchura de la calle es menor a la anchura del camion
+						if(arista.valor() < anchura_minima){
+							//Rechazar
+							rechazadas[arista.uno()][arista.otro(arista.uno())] = true;
+							rechazadas[arista.otro(arista.uno())][arista.uno()] = true;
+							//rechazadas[arista.otro(arista.uno())] = true;
+						}
 					}
 				}
 					
-				//Mientras no se llegue al final y no esten marcadas las aristas	
-				//if(count < grafo.V() && !(_marked[arista.uno()] && _marked[arista.otro(arista.uno())]) && !rechazadas[arista.uno()] && !rechazadas[arista.otro(arista.uno())]){
-				if(count < grafo.V() && !(_marked[arista.uno()] && _marked[arista.otro(arista.uno())])){
-				
-				
 					
-				
+				//Mientras no se llegue al final y no esten marcadas las aristas	
+				if(!_final && count < grafo.V() && !(_marked[arista.uno()] && _marked[arista.otro(arista.uno())])){
+
 					//Elegir desde que posicion empezar la recursion
 					if(_marked[arista.uno()] || destino == arista.otro(arista.uno())){
 						posicion = arista.otro(arista.uno());
 					}else{
 						posicion = arista.uno();
 					}
-					
-					if(posicion == destino){
+					//Si se llega al destino y no esta rechazada
+					if(posicion == destino && !rechazadas[posicion][arista.otro(posicion)]){						
 						_final = true; 
-						
 					}
 					
 					//Llamada recursiva	
@@ -137,14 +136,16 @@ bool resuelveCaso() {
 	if (std::cin.fail()) return false;
 
 	GrafoValorado<size_t> grafo = construirGrafo(V,E);
-	Solucion solucion = Solucion(grafo);
+	//Solucion solucion = Solucion(grafo);
 	
 	size_t origen, destino, coste;
 	std::cin >> numero_casos;
 	for(size_t i = 0; i < numero_casos; i++){
-		std::vector<bool> rechazadas = std::vector<bool>(E+1,false);
+		std::vector<bool> columnas_rechazadas(E+1,false);
+		std::vector<std::vector<bool>> rechazadas(E+1,columnas_rechazadas);
 		std::cin >> origen >> destino >> coste;
-		solucion.prim(grafo,origen, destino, coste, rechazadas );
+		Solucion solucion = Solucion(grafo);
+		solucion.prim(grafo,origen-1, destino-1, coste, rechazadas );
 	
 		if(solucion.terminado() && E > 0) {
 			std::cout << "SI" << std::endl;
@@ -152,7 +153,7 @@ bool resuelveCaso() {
 			std::cout << "NO" << std::endl;
 		}
 		
-		}
+	}
 	
 	
 	
