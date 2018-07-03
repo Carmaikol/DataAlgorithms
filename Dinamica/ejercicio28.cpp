@@ -40,10 +40,8 @@ bool resuelveCaso() {
 	size_t valor_maximo_oro = 0;
 	size_t numero_cofres = 0;
 	Matriz<size_t> cazatesoros(cofres.size(),T + 1, 0);
-	//cazatesoros[0][0] = 1;
 		
 		for(size_t i = 1; i <= cofres.size()-1; ++i){
-			//cazatesoros[i][0] = 1;
 			for(size_t j = 1; j <= T; ++j){
 				if((cofres[i].profundidad * 3) > j){
 					cazatesoros[i][j] = cazatesoros[i-1][j];
@@ -65,8 +63,7 @@ bool resuelveCaso() {
 				}
 			}	
 		
-		
-		
+			
 	if(numero_cofres > 0){
 		std::cout << valor_maximo_oro << std::endl;
 		std::cout << numero_cofres << std::endl;

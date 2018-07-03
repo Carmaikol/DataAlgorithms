@@ -30,7 +30,6 @@ bool resuelveCaso() {
 	
 
 	
-	
 	for(size_t i = 0; i < numero_usuarios && i <= ultimo_usuario; i++){
 		if(pesos[i]+pesos[ultimo_usuario]>peso_maximo) {
 			if(pesos[i]!=-1){

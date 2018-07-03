@@ -5,103 +5,114 @@
 #include "Grafo.h"
 
 
-
-std::stack<size_t> _blancos;
+std::vector<int> _blancos;
 std::vector<bool> _marked;
 std::vector<bool> _esBlanco;
 
-bool resuelveCaso();
-void dfs(Grafo grafo, size_t indice, size_t N, size_t M);
 
+void dfs(Grafo& grafo, int indice);
+bool resuelveCaso();
+
+
+
+void dfs(Grafo& grafo, int indice){
+		_marked[indice] = true;
+			for (auto w : grafo.adj(indice)){
+				if(!_marked[w] && _esBlanco[w]){
+					dfs(grafo, w);
+				}	
+		}	
+}
 
 // COMPLEJIDAD
-//O(N * M) donde N es el numero de columnas y M es el numero de filas.
+//O(N * M) donde N es el numero de filas y M es el numero de columnas.
 bool resuelveCaso() {
-	size_t N, M, resultado = 0; //N es el numero de columnas, M el numero de filas
+	int N, M, resultado = 0; 
 	
-	std::cin >> N >> M;
+	std::cin >> M >> N;
 	if (std::cin.fail()) return false;
+	
+	int vertices = (N+1)*(M)  ;
+	Grafo grafo(vertices);
 
-	Grafo grafo(N*M);
+	_blancos = std::vector<int>();
+	_esBlanco = std::vector<bool>(vertices,false);
+	_marked = std::vector<bool>(vertices,false);
 	
-	_esBlanco = std::vector<bool>(N*M,false);
-	_marked = std::vector<bool>(N*M,false);
 	
+	char nodo;
 	std::string linea;
 
-
-
-	for(size_t i = 0; i < numVertices; i++){
-		std::cin.get(nodo); if(nodo=='\n') std::cin.get(nodo);
-		
-		if(nodo=='.'){
-			_esBlanco[i] = true;
-			_blancos.push_back(i);
+	for(int i = 0; i < N+1; i++){
+		getline(std::cin,linea);
+		for(int j = 0; j < M; j++){
+			nodo = linea[j];
+			int indice = i * M + j;
+			int indice_superior =  (i - 1)  * M + j;
+			int indice_izquierdo = i * M + j - 1 ;
 			
+		if(nodo=='.'){
+			_esBlanco[indice] = true;
+			_blancos.push_back(indice);
+		
 			//Elemento superior
-				if(i-N >= 0 ){
-					size_t indice_superior =  i - N;
+				if(j - 1 >= 0 ){
 					if(_esBlanco[indice_superior]){
 						grafo.ponArista(indice,indice_superior);
 					}
 				}
 				
 				//Elemento izquierdo
-				if(j-M > 0){
-					size_t indice_izquierdo = i - 1;
-					
+				if(i - 1 >= 0){
 					if(_esBlanco[indice_izquierdo]){
 						grafo.ponArista(indice,indice_izquierdo);
 					}
-				}	
+				}
+			
 			}
 		}
+	}
 
-				
-		while(_blancos.size() > 0){
-			size_t indice  = _blancos.top();
-			_blancos.pop();
-			if(!_marked[indice]) {
-				resultado++;
-				dfs(grafo, indice, N, M);
-			}
+
+	for(int i = 0; i < _blancos.size(); i++){
+		int indice  = _blancos[i];
+
+		if(!_marked[indice]) {
+			resultado++;
+			dfs(grafo, indice);
 		}
-				
-	//Se resta el borde al resultado
-	std::cout << resultado - 1 << std::endl;
+	}
+		
+	//Restamos el borde blanco
+	std::cout << resultado-1 << std::endl;
+
+
 
 	return true;
 
 }
 
 
-void dfs(Grafo grafo, size_t indice, size_t N, size_t M){
-		_marked[indice] = true;
-			for (auto w : grafo.adj(indice)){
-				if(!_marked[w] && _esBlanco[w]){
-					dfs(grafo, w, N, M);
-				}
-				
-		}
-	
-}
 
+
+	
+	
 
 
 
 int main() {
 //   ajustes  para   que cin  extraiga   directamente de un  fichero
-//#ifndef DOMJUDGE
-//std::ifstream in("casos.txt");
-//auto cinbuf = std::cin.rdbuf(in.rdbuf());
-//#endif
+#ifndef DOMJUDGE
+std::ifstream in("casos.txt");
+auto cinbuf = std::cin.rdbuf(in.rdbuf());
+#endif
 
 
 	//size_t numeroCasos;
 	
 	//std::cin >> numeroCasos;
-
 	while(resuelveCaso()){}
+//	while(){}
 	
 	//while (numeroCasos > 0) {
 	//	std::cout << resuelveCaso();
@@ -109,11 +120,10 @@ int main() {
 	//	}
 
 //para dejar  todo  como  estaba  al  principio
-//#ifndef  DOMJUDGE
-//std::cin.rdbuf(cinbuf);
-//system("PAUSE");
-//#endif
-
+#ifndef  DOMJUDGE
+std::cin.rdbuf(cinbuf);
+system("PAUSE");
+#endif
 
 	return 0;
 }

@@ -29,7 +29,6 @@ bool resuelveCaso();
 bool resuelveCaso() {
 	
 	size_t numero_conferencias;
-	//size_t numero_conferencias, comienzo, fin;
 	
 	std::cin >> numero_conferencias;
 	if(std::cin.fail())return false;
@@ -41,7 +40,6 @@ bool resuelveCaso() {
 	for(size_t i = 0; i < numero_conferencias; i++){
 		Conferencia conferencia;
 		std::cin >> conferencia.comienzo >> conferencia.fin;
-		//Conferencia conferencia(comienzo, fin);
 		conferencias[i] = conferencia;
 		}
 		

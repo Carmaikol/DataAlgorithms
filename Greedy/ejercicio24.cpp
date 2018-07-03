@@ -43,9 +43,6 @@ Pelicula leerPelicula(){
 // COMPLEJIDAD
 //O(N log N) donde N es el numero de peliculas
 bool resuelveCaso() {
-	
-//	size_t HORA_MAXIMA = 23 * 60 + 59;
-	
 	int numero_peliculas;
 	
 	std::cin >> numero_peliculas;
@@ -59,9 +56,9 @@ bool resuelveCaso() {
 		queue.push(pelicula);
 		}
 		
-	int numPeliculas = 1;			//Contamos que siempre vemos la primera
+	int numPeliculas = 1;									//Contamos que siempre vemos la primera
 		
-	int fin_anterior = -1 ;   	//Flag que controla el fin de la ultima pelicula que hemos visto
+	int fin_anterior = -1 ;   								//Flag que controla el fin de la ultima pelicula que hemos visto
 	
 	
 	Pelicula pelicula = queue.top();

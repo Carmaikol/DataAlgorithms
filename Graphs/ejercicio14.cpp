@@ -53,76 +53,75 @@ bool resuelveCaso() {
 			int indice_di_izq= (i+1) * M + j - 1;
 			int indice_di_der= (i+1) * M + j + 1;
 			
-		if(nodo=='#'){
-			
-			_esPetroleo[indice] = true;
-			_negros.push_back(indice);
-		//Elemento superior
-		if(i > 0 ){
-			if(_esPetroleo[indice_superior]){
-				conjunto.unir(indice,indice_superior);
-			}
-		}
+			if(nodo=='#'){
 				
-		//Elemento izquierdo
-		if(j > 0){
-			if(_esPetroleo[indice_izquierdo]){
-				conjunto.unir(indice,indice_izquierdo);
-			}
-		}
-				
-		
-		//Elemento derecho
-		if(j < M-1){
-			if(_esPetroleo[indice_derecho]){
-				conjunto.unir(indice,indice_derecho);
-			}
-		}
-				
-				
-		//Elemento inferior
-		if(i < N){
-			if(_esPetroleo[indice_inferior]){
-				conjunto.unir(indice,indice_inferior);
-			}
-		}
-		
-		
-			//Diagonal superior derecha 
-		if(i > 0 && j < M-1){
-			if(_esPetroleo[indice_ds_der]){
-				conjunto.unir(indice,indice_ds_der);
-			}
-		}
-		
-		//Diagonal superior izquierda
-		if(i > 0  && j > 0){
-				if(_esPetroleo[indice_ds_izq]){
-					conjunto.unir(indice,indice_ds_izq);
+				_esPetroleo[indice] = true;
+				_negros.push_back(indice);
+				//Elemento superior
+				if(i > 0 ){
+					if(_esPetroleo[indice_superior]){
+						conjunto.unir(indice,indice_superior);
+					}
 				}
-		}
-		
-			//Diagonal inferior izquierda 
-		if(i < N   && j > 0){
-			if(_esPetroleo[indice_di_izq]){
-				conjunto.unir(indice,indice_di_izq);
-			}
-		}
-		
-			//Diagonal inferior derecha 
-		if(i < N  && j < M-1){
-			if(_esPetroleo[indice_di_der]){
-				conjunto.unir(indice,indice_di_der);
-			}
-		}
-			
+						
+				//Elemento izquierdo
+				if(j > 0){
+					if(_esPetroleo[indice_izquierdo]){
+						conjunto.unir(indice,indice_izquierdo);
+					}
+				}
+						
+				
+				//Elemento derecho
+				if(j < M-1){
+					if(_esPetroleo[indice_derecho]){
+						conjunto.unir(indice,indice_derecho);
+					}
+				}
+						
+						
+				//Elemento inferior
+				if(i < N){
+					if(_esPetroleo[indice_inferior]){
+						conjunto.unir(indice,indice_inferior);
+					}
+				}
+				
+				
+					//Diagonal superior derecha 
+				if(i > 0 && j < M-1){
+					if(_esPetroleo[indice_ds_der]){
+						conjunto.unir(indice,indice_ds_der);
+					}
+				}
+				
+				//Diagonal superior izquierda
+				if(i > 0  && j > 0){
+						if(_esPetroleo[indice_ds_izq]){
+							conjunto.unir(indice,indice_ds_izq);
+						}
+				}
+				
+					//Diagonal inferior izquierda 
+				if(i < N   && j > 0){
+					if(_esPetroleo[indice_di_izq]){
+						conjunto.unir(indice,indice_di_izq);
+					}
+				}
+				
+					//Diagonal inferior derecha 
+				if(i < N  && j < M-1){
+					if(_esPetroleo[indice_di_der]){
+						conjunto.unir(indice,indice_di_der);
+					}
+				}
+				
 			}
 		}
 	
 	}
 
-	
-	
+		
 	for(size_t i = 0; i < _negros.size(); i++ ){
 		if(!_marked[conjunto.buscar(_negros[i])]){
 			size_t max_local = conjunto.size(_negros[i]);
@@ -136,12 +135,8 @@ bool resuelveCaso() {
 	std::cout << resultado << std::endl;
 	_marked = std::vector<bool>(vertices,false);
 
-
-
-
 	//Segunda parte
 	int numero_casos_nuevos, _i,_j;
-	
 	
 	std::cin >> numero_casos_nuevos;
 	
@@ -224,11 +219,8 @@ bool resuelveCaso() {
 			}
 		}
 		
-		
-		
 		size_t max_local = conjunto.size(indice);
 		resultado = std::max(resultado, max_local);
-		
 		
 		std::cout << resultado << std::endl;
 		
@@ -248,17 +240,7 @@ std::ifstream in("casos_petrolero.txt");
 auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif
 
-
-	//size_t numeroCasos;
-	
-	//std::cin >> numeroCasos;
 	while(resuelveCaso()){}
-//	while(){}
-	
-	//while (numeroCasos > 0) {
-	//	std::cout << resuelveCaso();
-	//	numeroCasos--;
-	//	}
 
 //para dejar  todo  como  estaba  al  principio
 #ifndef  DOMJUDGE

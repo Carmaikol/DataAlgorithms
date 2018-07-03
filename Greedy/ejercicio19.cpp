@@ -15,7 +15,6 @@ bool resuelveCaso() {
 	std::cin >> numeroCasos;
 	if(std::cin.fail())return false;
 	
-	//PriorityQueue<int, std::greater<int>> listaLibros;
 	std::vector<size_t> listaLibros(numeroCasos, 0);
 	
 	for(size_t i = 0; i < numeroCasos; i++){
