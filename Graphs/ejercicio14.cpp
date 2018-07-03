@@ -43,35 +43,78 @@ bool resuelveCaso() {
 			j = _j ;  //columnas
 			
 			nodo = linea[j];
-			int indice = i * M + j;	
-			int indice_superior =  (i - 1) * M + j;
+			int indice = i * M + j;
+			int indice_superior =  (i - 1)  * M + j;
+			int indice_inferior =  (i + 1)  * M + j;
 			int indice_izquierdo = i * M + j - 1 ;
-			int indice_superior_izquierdo = (i-1) * M + j - 1 ;
+			int indice_derecho = i * M + j + 1;
+			int indice_ds_izq = (i - 1) * M + j - 1 ;
+			int indice_ds_der = (i - 1) * M + j + 1;
+			int indice_di_izq= (i+1) * M + j - 1;
+			int indice_di_der= (i+1) * M + j + 1;
 			
 		if(nodo=='#'){
 			
 			_esPetroleo[indice] = true;
 			_negros.push_back(indice);
-			//Elemento superior
-				if(i  > 0 ){
-					if(_esPetroleo[indice_superior]){
-						conjunto.unir(indice,indice_superior);
-					}
-				}
+		//Elemento superior
+		if(i > 0 ){
+			if(_esPetroleo[indice_superior]){
+				conjunto.unir(indice,indice_superior);
+			}
+		}
 				
-				//Elemento izquierdo
-				if(j  > 0){
-					if(_esPetroleo[indice_izquierdo]){
-						conjunto.unir(indice,indice_izquierdo);
-					}
-				}
+		//Elemento izquierdo
+		if(j > 0){
+			if(_esPetroleo[indice_izquierdo]){
+				conjunto.unir(indice,indice_izquierdo);
+			}
+		}
 				
-					//Elemento superior izquierdo
-				if(i  > 0 && j > 0){
-					if(_esPetroleo[indice_superior_izquierdo]){
-						conjunto.unir(indice,indice_superior_izquierdo);
-					}
+		
+		//Elemento derecho
+		if(j < M-1){
+			if(_esPetroleo[indice_derecho]){
+				conjunto.unir(indice,indice_derecho);
+			}
+		}
+				
+				
+		//Elemento inferior
+		if(i < N){
+			if(_esPetroleo[indice_inferior]){
+				conjunto.unir(indice,indice_inferior);
+			}
+		}
+		
+		
+			//Diagonal superior derecha 
+		if(i > 0 && j < M-1){
+			if(_esPetroleo[indice_ds_der]){
+				conjunto.unir(indice,indice_ds_der);
+			}
+		}
+		
+		//Diagonal superior izquierda
+		if(i > 0  && j > 0){
+				if(_esPetroleo[indice_ds_izq]){
+					conjunto.unir(indice,indice_ds_izq);
 				}
+		}
+		
+			//Diagonal inferior izquierda 
+		if(i < N   && j > 0){
+			if(_esPetroleo[indice_di_izq]){
+				conjunto.unir(indice,indice_di_izq);
+			}
+		}
+		
+			//Diagonal inferior derecha 
+		if(i < N  && j < M-1){
+			if(_esPetroleo[indice_di_der]){
+				conjunto.unir(indice,indice_di_der);
+			}
+		}
 			
 			}
 		}
