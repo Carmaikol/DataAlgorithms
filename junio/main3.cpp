@@ -79,7 +79,8 @@ bool resuelveCaso() {
 		Edificio edificio_actual = queue.top();
 		queue.pop();
 		
-		if(edificio_actual.comienzo + 1 > fin_anterior  ){
+		if((edificio_actual.comienzo + 1 > fin_anterior) || 
+		(fin_anterior_valido != -1 &&  fin_anterior_valido < edificio_actual.comienzo + 1 )  ){
 				numero_tuneles++;
 				fin_anterior = edificio_actual.fin;
 				fin_anterior_valido = -1;
