@@ -89,11 +89,13 @@ bool resuelveCaso() {
 			if(fin_anterior_valido == -1){
 					fin_anterior_valido = edificio_actual.fin;
 			}else{
+				
 				if((fin_anterior_valido + 1  < edificio_actual.comienzo)){
 					numero_tuneles++;
 					fin_anterior = edificio_actual.fin;
 					fin_anterior_valido = -1;
-				}					
+				}		
+					fin_anterior_valido = std::min(fin_anterior_valido,edificio_actual.fin);			
 			}				
 		}
 		

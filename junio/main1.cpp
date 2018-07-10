@@ -45,7 +45,7 @@ bool resuelveCaso() {
 
 	std::cin >> numeroCasos;
 	if(std::cin.fail())return false;
-	
+	if(numeroCasos==0)return false;
 	
 	PriorityQueue<Paciente,ComparadorPacientes> queue;
 	
@@ -61,10 +61,10 @@ bool resuelveCaso() {
 			paciente.extra = i;
 			queue.push(paciente);
 		}else{
-			if(!queue.empty()){
+		//	if(!queue.empty()){
 			std::cout<< queue.top().nombre << std::endl;
 			queue.pop();	
-			}
+		//	}
 		}
 		
 		}
